@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+        <title>서치통</title>
+        <style>
+            html,
+            body,
+            #root {
+                width: 100%;
+                /* To smooth any scrolling behavior */
+                -webkit-overflow-scrolling: touch;
+                margin: 0px;
+                padding: 0px;
+                /* Allows content to fill the viewport and go beyond the bottom */
+                min-height: 100%;
+            }
+            #root {
+                flex-shrink: 0;
+                flex-basis: auto;
+                flex-grow: 1;
+                display: flex;
+                flex: 1;
+            }
+        
+            html {
+                scroll-behavior: smooth;
+                /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+                -webkit-text-size-adjust: 100%;
+                height: calc(100% + env(safe-area-inset-top));
+            }
+        
+            body {
+                display: flex;
+                /* Allows you to scroll below the viewport; default value is visible */
+                overflow-y: auto;
+                overscroll-behavior-y: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -ms-overflow-style: scrollbar;
+            }
+            /* Enable for apps that support dark-theme */
+            /*@media (prefers-color-scheme: dark) {
+                body {
+                background-color: black;
+                }
+            }*/
+        </style>
+        <!-- <link rel="manifest" href="\manifest.json"> -->
+        <link rel="icon" type="image/png" sizes="16x16" href="https://searchtong.com/favicon-16.png"></link>
+        <link rel="icon" type="image/png" sizes="32x32" href="https://searchtong.com/favicon-32.png"></link>
+        <link rel="shortcut icon" href="https://searchtong.com/favicon.ico"></link>
+        
+        <!-- 토마토 그룹 css 웹-->
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/side_menu.css">
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/bottom_tab_bar.css">
+    
+        <!--fontawesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+        <!--swiper-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+        <link rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/2.3.2/css/bootstrap.min.css" >
+
+        <!--서치통-->
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/pannel.css">
+        <link rel="stylesheet" href="./css/nft.css">
+        <link rel="stylesheet" href="./css/searchtong.css">
+
+        <!-- 토마토 그룹 javascript-->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="https://tomato.etomato.com/crypto-js.min.js"></script>
+        <script src="https://tomato.etomato.com/swiper-3.2.7.min.js"></script>
+        <script src="https://tomato.etomato.com/bootstrap.js"></script>
+        <script src="https://tomato.etomato.com/tomato_20220420.js"></script>
+    
+        <!-- 토마토 그룹 시작 -->
+        <!-- Web-->
+        <div id="tomatoWeb" style="display:none; z-index:9999;" >
+          <div id="mySidenav" class="sidenav">
+            <asp:Literal ID="liSidebar" runat="server"></asp:Literal>
+            <a href="javascript:void(0)" id="open_btn" class="openbtn" onclick="openNav()"><i class="fas fa-plus-circle"></i></a>
+            <a href="javascript:void(0)" id="close_btn" class="closebtn" onclick="closeNav()" style="display: none;"><i class="fas fa-times-circle"></i></a>
+          </div>
+    
+          <div id="sortable-list" class="sidenav2" style="display:none;">
+            <h3>메뉴설정</h3>
+            <ul id="sortable" class="connectedSortable" style="list-style:none; padding:0;">
+              <asp:Literal ID="liMenubar" runat="server"></asp:Literal>
+            </ul>
+          </div>
+        </div>
+    
+        <!-- Mobile -->
+        <div id="tomatoMobile" class="btab_case2" style="display:none;">
+          <div class="bottom_nav swiper-container-bottom">
+            <div id="mobileBot" class="swiper-wrapper menu">
+              <div id="setID" class="swiper-slide w20p item">
+                <span onClick="location.href='/tomato.html';"><img src="https://tomato.etomato.com/images/icon/icon_set_b.png" alt="" style="width: 30px;"></span>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="bottom-prev swiper-button-prev"></div>
+            <div class="bottom-next swiper-button-next"></div>
+          </div>
+        </div>
+        <!-- 토마토 그룹 끝 -->
+
+       <!-- Modal -->
+       <div class="modal fade nft_modal" id="nft_modal02" tabindex="-1"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="nft_modal_header">
+                <a href=""><img src="./img/ic_arrow_bg.svg" alt=""></a>
+                <h4>내 패널 등록증 (NFT)</h4>
+              </div>
+            </div>
+            <div class="modal-body">
+
+              <div class="nft_modal_body_tit">
+                <span class="nmbt_num"><b>2</b> / <b>100,000</b> 호</span>
+                <span class="nmbt_badge">123456</span>
+              </div>
+
+              <div class="nft_modal_body_txt" style="background:none;">
+                <div class="nmbt_tit">
+                  소유자 정보
+                </div>
+
+                
+                <div class="pannel_privacy_info" style="padding:0px;" >
+                  <ul>
+        
+                    <li>
+                      <span class="ppi_tit">성별</span>
+        
+                      <div class="ppi_toggle_switch">
+                        <div class="pts_button" id="">
+                          <input type="checkbox" class="checkbox"/>
+                          <div class="knobs">
+                            <span>남</span>
+                          </div>
+                          <div class="layer"></div>
+                        </div>
+                      </div>
+                    </li>
+        
+                    <li>
+                      <span class="ppi_tit">출생연도</span>
+                      <select name="" id="">
+                        <option value="" selected>1990</option>
+                        <option value="">1991</option>
+                        <option value="">1992</option>
+                        <option value="">1993</option>
+                        <option value="">1994</option>
+                      </select>
+                    </li>
+        
+                    <li>
+                      <span class="ppi_tit">거주 지역구(주민등록상 거주지를 입력해주세요.)</span>
+                      <div class="ppi_address_cont">
+                        <input type="text" class="pca_input" id="sample6_address" placeholder="">
+                        <input type="button" class="pac_btn" onclick="sample6_execDaumPostcode()" value="주소 검색">               
+                      </div>
+                    </li>
+
+                    <li>
+                      <span class="ppi_tit">결혼여부</span>
+        
+                      <div class="ppi_toggle_switch">
+                        <div class="pts_button" id="">
+                          <input type="checkbox" class="checkbox"/>
+                          <div class="knobs02">
+                            <span>여</span>
+                          </div>
+                          <div class="layer"></div>
+                        </div>
+                      </div>
+                    </li>
+        
+                    <li>
+                      <span class="ppi_tit">자녀여부</span>
+        
+                      <div class="ppi_toggle_switch">
+                        <div class="pts_button" id="">
+                          <input type="checkbox" class="checkbox"/>
+                          <div class="knobs03">
+                            <span>여</span>
+                          </div>
+                          <div class="layer"></div>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li>
+                      <span class="ppi_tit">소득</span>
+                      <select name="" id="">
+                        <option value="" selected>월 100만원 미만</option>
+                        <option value="">100만원 이상 200만원 미만</option>
+                        <option value="">200만원 이상 300만원 미만</option>
+                        <option value="">300만원 이상 400만원 미만</option>
+                        <option value="">400만원 이상 500만원 미만</option>
+                        <option value="">500만원 이상</option>
+                      </select>
+                    </li>
+        
+                    <li>
+                      <span class="ppi_tit">정치성향</span>
+                      <select name="" id="">
+                        <option value="" >보수에 가까움</option>
+                        <option value="">진보에 가까움</option>
+                        <option value="중도" selected>중도</option>
+                      </select>
+                    </li>
+
+                    <li>
+                      <span class="ppi_tit">통통지갑</span>
+                      <div class="ppi_wallet">
+                        <input type="text" class="ppi_wallet_address" value="TTCNABsm34nfwk23dj1flLLD2mrd">
+                        <input type="button" class="ppi_wallet_btn" value="지갑 연동하기">
+                      </div>
+                    </li>
+                  </ul>
+        
+                </div>
+              </div>
+
+            </div>
+            <div class="modal-footer nft02_footer">
+              <button type="button" class="btn btn-secondary nft_cancel_btn" data-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-secondary nft_save_btn" data-dismiss="modal">저장</button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+       <div class="modal fade nft_modal" id="nft_modal01" tabindex="-1"  aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="nft_modal_header">
+                <a href="" ><img src="./img/ic_arrow_bg.svg" alt=""></a>
+                <h4>내 패널 등록증 (NFT)</h4>
+              </div>
+            </div>
+            <div class="modal-body">
+
+              <div class="nft_modal_body_tit">
+                <span class="nmbt_num"><b>2</b> / <b>100,000</b> 호</span>
+                <span class="nmbt_badge">123456</span>
+              </div>
+
+              <div class="nft_modal_body_txt">
+                <div class="nmbt_tit">
+                  소유자 정보 <a href="" data-toggle="modal" data-target="#nft_modal02" data-dismiss="modal"><img src="./img/ic_edit.svg" alt=""></a>
+                </div>
+
+                <div class="nmbt_cont pd10px">
+                  <ul class="">
+                    <li>
+                      성별 : <span>남</span>
+                    </li>
+                    <li>
+                      나이 : <span>40</span>대
+                    </li>
+                    <li>
+                      결혼여부 : <span>여</span>
+                    </li>
+                    <li>
+                      자녀여부 : <span>부</span>
+                    </li>
+                    <li>
+                      거주 지역구 : <span>마포구 을</span>
+                    </li>
+                    <li>
+                      소득 분위 : <span>5</span>분위
+                    </li>
+                    <li>
+                      정치성향 : <span>중도</span>
+                    </li>
+                    <li class="mb0px wrap_list">
+                      통통지갑 주소 : <span>TTCNABsm34nfwk23dj1flLLD2mrd</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <span class="mt10px">**등록증 판매 시 소유자 정보는 거래 확정 시 자동으로 초기화됩니다.</span>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary nft_sell_btn" style="width:100%;" data-toggle="modal" data-target="#nft_pannel_cancel_modal2"  data-dismiss="modal">내 등록증 판매하기</button>
+            </div>
+          </div>
+        </div>
+       </div>
+
+     
+      <div class="modal fade nft_modal" id="nft_pannel_cancel_modal2" tabindex="-1" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              
+            </div>
+            <div class="modal-body" style="text-align: center;">
+              패널 등록증을 판매하시겠습니까?
+            </div>
+
+            <div class="modal-footer npcm_btns">
+              <button type="button" class="btn btn-secondary npcm_btn2" data-dismiss="modal">취소</button>
+              <button type="button" class="btn btn-secondary npcm_btn" data-dismiss="modal" id="">판매</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </head>
+    
+<body>
+
+    <div class="wrapper">
+
+     
+      <div class="searchtong_cont"><!--searchtong_cont-->
+        <header> <!--header-->
+      
+        <div id="main_nav" class="main_nav">
+          <div class="main_nav_cont">
+              <ul>
+                <li class="menu_login" onclick="location.href='./sign-001.htm';">
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAABACAYAAABGHBTIAAAACXBIWXMAACxLAAAsSwGlPZapAAADk0lEQVRo3u2bzVHjUAyAJZl7EioQGS57CxWQ3HZPmAoIFSxUEFMBUAFJBYQKEirANOBoKyAFZKQ9rNlxHg7s7LxnmxDd7PGM/D29H/09hMByeHjYV9UTAOgDAANAO5CqJSKmZjZV1QcRkbKPMCSomY3MrA/1yFhVr1zwIMDdbjcBgBHULGYmZnYqImkw4KbAFqe6qg5eodEz7BAA7kpGem5mCQA8i8gyBBUz94iolw82l0AfiYigR4VMRDNH2VJVYxF5rNKkzDwiosQd9MViMYh8Kdnf348BYFh8p6rfROS58jm8XD62Wi1AxL8bJiJyq9V6JI96Rg5ssuloqEJE5MrM5sV3RHRMvqZzybqZ1L1bIeLEmdaxF+C9vT1210ud1i3MsqkzAOwF2Mxc72kJDZCSE6EdBBgRGwFcJgRfTHbAO+Ad8A746wGr6tx5TrcaWEREVU/NbJ770LdNBcbQCpi5HUXRvZn1zWxqZuehYuINMbpVuoaJKH7NayFijIhPebCxtZtWy3XgEXFWF3RwYFWdmFnaFOjgwCKyNLOBmb0N1YiemLm3deewiCwXi8UpANy8CdeIZswcb6XjkWXZpaomJdD33W73oop/iKpeQ2UJtly+dzodfHl5mfvU1+l0klqBP4Du+4ZuBHAB+hcixiGhXWBk5iERXUO4qt7/yjjLsnPvnhYRjRoICwAwZOZ+iF26ibClXpoXYFW9BABpIOxYRB4+XbT0QSQ1JKK7Enf0RkQuP2W09M6PXGyATXzB1u5pFWATALjeAHsVUvdeTbCjEtihiAQvwFUKfHBwMAaAM9cHUdVzEZlW8Q+VADNzGxFvELEMdlBsOvn0wDnsDBHX4t68w2ZQdVk1ODARxQDQCNiqdulWU2ArAVbVCSJOc9i5mR3V2R3gs20pjqLozMzSLMuuoCHielroCZaJaFF4lTQFOohrGUWRm3nkpoZfoZpaYKuBP5PsgHfAO+Ad8NcDJiJxjqleE+CY+U0PqBfg1Wq1BoyIXKKsemv+idSKhki9NbXAeqq3TUQ/G2DkkWOI1OcaHjvPF1UXux0fOnFdXFW99Qasqrew3ifdRsT7EOWSf4R1E4Vjr7da8k2iNLEOAGMimqxWqzTgNR4mohMzG76XTsIAit9coalZ1hKF3uvD7xS7K5fcsj+CXsVzptisxth4rKqX7hKqovXwmIiGZtZDRIaA12nNLM3vKt1u2it+A46Y+/yad39OAAAAAElFTkSuQmCC" alt="">
+                  <span>로그인</span>
+                </li>
+                <hr class="line">
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xOSAxOUg4LjVBMS41IDEuNSAwIDAgMSA3IDE3LjVWN2gxdjEwLjVhLjUuNSAwIDAgMCAuNS41SDE5djF6IiBmaWxsPSIjNEQ5MkZCIi8+DQogICAgPHBhdGggZD0iTTE1IDEyLjVoLTFWMTdoMXYtNC41ek0xMSAxMi41aC0xVjE3aDF2LTQuNXpNMTcgMTBoLTF2N2gxdi03ek0xMyAxMGgtMXY3aDF2LTd6IiBmaWxsPSIjNEQ5MkZCIi8+DQo8L3N2Zz4NCg==" alt="">
+                  <span>리서치</span>
+                </li>
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xOCAxMC4xMjJhMS44OTIgMS44OTIgMCAwIDAtLjY1MS0xLjQxNWwtMS4yNDYtMS4xMkEyLjM2NyAyLjM2NyAwIDAgMCAxNC41MzMgN0g5LjY2NkM4Ljc0NyA3IDggNy42NzIgOCA4LjVWMTloMTB2LTguODc4em0tMS40MzctLjcwOGMuMDI4LjAyOC4wNTQuMDU2LjA3OS4wODZoLTEuNDJWOC4yMjNjLjAzNC4wMjEuMDY2LjA0NS4wOTYuMDdsMS4yNDUgMS4xMjF6TTkuMTExIDE4VjguNWMwLS4yNzYuMjQ5LS41LjU1Ni0uNWg0LjQ0NHYyLjVoMi43NzhWMThIOS4xMXptMS42NjctNi41aDQuNDQ0djFoLTQuNDQ0di0xem0wIDJoNC40NDR2MWgtNC40NDR2LTF6bTMuMzQzIDEuOTA3IDEuMDkyLjE4M2MtLjEwNi41MjQtLjU1OSAxLjQxLTEuNTgyIDEuNDEtLjQwMiAwLS43OTItLjEyNS0xLjEwNC0uMzUzLS4xNzQtLjExMi0uMjM2LS4xNDctLjM2OC0uMTQ3YTEuMjE2IDEuMjE2IDAgMCAwLS41MDkuMzNsLS44MzMtLjY1OWEyLjE1IDIuMTUgMCAwIDEgMS4zNDItLjY3MWMuMzcuMDA0LjcyNi4xMiAxLjAxMi4zMzJhLjcyOC43MjggMCAwIDAgLjQ2LjE2N2MuMzQ2LjAwMS40ODktLjU4NS40OS0uNTkyeiIgZmlsbD0iIzREOTJGQiIvPg0KPC9zdmc+DQo=" alt="">
+                  <span>리포트</span>
+                </li>
+                <hr class="line">
+                <li>
+                  <img src="./img/ic_pannel_badge.svg" alt="">
+                  <span>패널등록증 (NFT)</span>
+                </li>
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xMyAxM2EzIDMgMCAxIDAgMC02IDMgMyAwIDAgMCAwIDZ6bTAtNWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6TTE1LjI0NiAxNGgtNC40OTJjLTEuNTIuMDAyLTIuNzUyIDEuMTEtMi43NTQgMi40NzlWMTloMS4xMTF2LTIuNTIxYzAtLjgxNy43MzYtMS40NzggMS42NDMtMS40NzloNC40OTJjLjkwNyAwIDEuNjQyLjY2MiAxLjY0MyAxLjQ3OVYxOUgxOHYtMi41MjFjLS4wMDItMS4zNjktMS4yMzMtMi40NzctMi43NTQtMi40Nzl6IiBmaWxsPSIjNEQ5MkZCIi8+DQo8L3N2Zz4NCg==" alt="">
+                  <span>마이페이지</span>
+                </li>
+                <hr class="line">
+                <li>
+                  <img src="https://searchtong.com/static/media/icon-side-setting.9f19ed5a.svg" alt="">
+                  <span>설정</span>
+                </li>
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xMyAxOWE2IDYgMCAxIDEgNi02IDYuMDA3IDYuMDA3IDAgMCAxLTYgNnptMC0xMWE1IDUgMCAxIDAgMCAxMCA1IDUgMCAwIDAgMC0xMHoiIGZpbGw9IiM0RDkyRkIiLz4NCiAgICA8cGF0aCBkPSJNMTMuNTYyIDE0LjVoLTEuMTI1di0uMzljLS4wMTctLjc1NC40MDYtMS40NTggMS4xMDUtMS44MzguNDI3LS4yMTkuNjUzLS42Ny41NjMtMS4xMTYtLjA5LS40MjQtLjQ0Ni0uNzU1LS45LS44MzctLjYxMS0uMTA1LTEuMTk4LjI3MS0xLjMxMi44NDFhLjk3NC45NzQgMCAwIDAtLjAxOC4xOUgxMC43NWMwLTEuMTYgMS4wMDgtMi4xIDIuMjUtMi4xIDEuMjQzIDAgMi4yNS45NCAyLjI1IDIuMTAxIDAgLjc2NS0uNDQ2IDEuNDctMS4xNjQgMS44MzlhMS4wMjQgMS4wMjQgMCAwIDAtLjUyNC45MnYuMzl6TTEzLjc1IDE1LjI1aC0xLjV2MS41aDEuNXYtMS41eiIgZmlsbD0iIzREOTJGQiIvPg0KPC9zdmc+DQo=" alt="">
+                  <span>고객센터</span>
+                </li>
+              </ul>
+          </div>
+        </div>       
+        <div id="main_nav_overlay" onclick="closeNav33()"></div>
+            <div onclick="openNav33()" style="cursor: pointer;">
+              <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cmVjdCB4PSIyIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMiIgcng9IjEiIGZpbGw9IiMxMTEiLz4NCiAgICA8cmVjdCB4PSIyIiB5PSIxMCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIiIHJ4PSIxIiBmaWxsPSIjMTExIi8+DQogICAgPHJlY3QgeD0iMiIgeT0iMTciIHdpZHRoPSIxOCIgaGVpZ2h0PSIyIiByeD0iMSIgZmlsbD0iIzExMSIvPg0KPC9zdmc+DQo=" alt="">
+            </div>
+            <h4 class="login_tit nft_tit">패널 등록증 (NFT)</h4>
+            <div class="nft_mypage" data-toggle="modal" data-target="#nft_modal01">
+                <img src="./img/ic_mypage.svg" alt="">
+            </div>
+        </header> <!--header-->
+
+        <div class="sub_header"> <!--sub_header-->
+          <div class="sh_l">
+            <a href=""><img src="./img/ic_back.svg" alt=""></a>
+          </div>
+          <div class="sh_r2">
+            <select name="sh_r_select2" id="sh_r_select2">
+              <option value="전체" selected>전체</option>
+              <option value="판매중">판매중</option>
+              <option value="등록 가격 내림 순">등록 가격 내림 순</option>
+              <option value="등록 가격 올림 순">등록 가격 올림 순</option>
+            </select>
+          </div>
+        </div> <!--sub_header-->
+
+        <div class="nft_cont"><!--nft_cont-->
+
+          <div class="nft_cont_banner">
+            <div class="ncb_txt">
+              <span class="ncb_txt1">패널 등록증 홍보배너</span>
+              <span class="ncb_txt2">패널 만들기</span>
+              <span class="ncb_badge">100TTC</span>
+            </div>
+            <img class="ncb_img" src="./img/nft_pannel_banner_img.webp" alt="">
+            <span class="ncb_close">&times;</span>
+          </div>
+
+          <div class="nft_register_list ">
+              <ul>
+                <li>
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>01</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li >
+                <li class="nrl_ing">
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>02</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li>
+                <li class="nrl_ing nrl_ing2">
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>03</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li>
+                <li>
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>04</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li>
+                <li>
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>05</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li>
+                <li class="nrl_ing2">
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>06</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li>
+                <li>
+                  <div class="nrl_t">
+                    <span class="nrl_t_tit"><b>07</b>호</span>
+                    <span>패널 등록증</span>
+                  </div>
+                  <div class="nrl_b">
+                    <span>등록 가격 : <b>1,000</b>TTC</span>
+                    <span>소유자 : <b>김땡땡</b></span>
+                    <span>구매일 : <input type="date" value="2024-03-30" disabled></span>
+                  </div>
+                </li>
+              </ul>
+          </div>
+        </div><!--nft_cont-->
+       
+
+      </div><!--searchtong_cont-->
+    </div>
+
+<!--pannel-->
+<script>
+  $('.nrl_ing2').click(function(){
+    location.href='./nft-003.htm';
+  });
+</script>
+<!--modal-->
+<script>
+
+  $('.npcm_btn').click(function(){
+    location.href='./nft-002.htm';
+  })
+
+  $('.nft_cancel_btn').click(function(){
+     alert('입력하신 사항이 저장되지 않았습니다. 페이지에서 나가시겠습니까?');
+  });
+
+  $('.nft_save_btn').click(function(){
+     alert('저장되었습니다.');
+  });
+</script>
+
+
+<!--우편번호-->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+  function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                   
+
+                } 
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                // document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                
+            }
+        }).open();
+    }
+</script>
+
+
+
+    <script>
+      function openNav33() {
+       
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        document.getElementById("main_nav_overlay").style.display = "block";
+
+        if(window.innerWidth < 480){
+          document.getElementById("main_nav").style.width = "80%";
+        }else if(window.innerWidth > 700){
+          document.getElementById("main_nav").style.width = "450px";
+        }else if(480 < window.innerWidth < 700){
+          document.getElementById("main_nav").style.width = "300px";
+        }
+      }
+
+      function closeNav33() {
+        document.getElementById("main_nav").style.width = "0";
+        document.body.style.backgroundColor = "white";
+        document.getElementById("main_nav_overlay").style.display = "none";
+      }
+
+    </script>
+    
+
+
+</body>
+</html>

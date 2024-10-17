@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+        <title>서치통</title>
+        <style>
+            html,
+            body,
+            #root {
+                width: 100%;
+                /* To smooth any scrolling behavior */
+                -webkit-overflow-scrolling: touch;
+                margin: 0px;
+                padding: 0px;
+                /* Allows content to fill the viewport and go beyond the bottom */
+                min-height: 100%;
+            }
+            #root {
+                flex-shrink: 0;
+                flex-basis: auto;
+                flex-grow: 1;
+                display: flex;
+                flex: 1;
+            }
+        
+            html {
+                scroll-behavior: smooth;
+                /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+                -webkit-text-size-adjust: 100%;
+                height: calc(100% + env(safe-area-inset-top));
+            }
+        
+            body {
+                display: flex;
+                /* Allows you to scroll below the viewport; default value is visible */
+                overflow-y: auto;
+                overscroll-behavior-y: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -ms-overflow-style: scrollbar;
+            }
+            /* Enable for apps that support dark-theme */
+            /*@media (prefers-color-scheme: dark) {
+                body {
+                background-color: black;
+                }
+            }*/
+        </style>
+        <!-- <link rel="manifest" href="\manifest.json"> -->
+        <link rel="icon" type="image/png" sizes="16x16" href="https://searchtong.com/favicon-16.png"></link>
+        <link rel="icon" type="image/png" sizes="32x32" href="https://searchtong.com/favicon-32.png"></link>
+        <link rel="shortcut icon" href="https://searchtong.com/favicon.ico"></link>
+        
+        <!-- 토마토 그룹 css 웹-->
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/side_menu.css">
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/bottom_tab_bar.css">
+    
+        <!--fontawesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+        <!--swiper-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+        <link rel="stylesheet" href="https://cdn.usebootstrap.com/bootstrap/2.3.2/css/bootstrap.min.css" >
+
+        <!--서치통-->
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/pannel.css">
+        <link rel="stylesheet" href="./css/nft.css">
+        <link rel="stylesheet" href="./css/searchtong.css">
+
+        <!-- 토마토 그룹 javascript-->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="https://tomato.etomato.com/crypto-js.min.js"></script>
+        <script src="https://tomato.etomato.com/swiper-3.2.7.min.js"></script>
+        <script src="https://tomato.etomato.com/bootstrap.js"></script>
+        <script src="https://tomato.etomato.com/tomato_20220420.js"></script>
+    
+        <!-- 토마토 그룹 시작 -->
+        <!-- Web-->
+        <div id="tomatoWeb" style="display:none; z-index:9999;" >
+          <div id="mySidenav" class="sidenav">
+            <asp:Literal ID="liSidebar" runat="server"></asp:Literal>
+            <a href="javascript:void(0)" id="open_btn" class="openbtn" onclick="openNav()"><i class="fas fa-plus-circle"></i></a>
+            <a href="javascript:void(0)" id="close_btn" class="closebtn" onclick="closeNav()" style="display: none;"><i class="fas fa-times-circle"></i></a>
+          </div>
+    
+          <div id="sortable-list" class="sidenav2" style="display:none;">
+            <h3>메뉴설정</h3>
+            <ul id="sortable" class="connectedSortable" style="list-style:none; padding:0;">
+              <asp:Literal ID="liMenubar" runat="server"></asp:Literal>
+            </ul>
+          </div>
+        </div>
+    
+        <!-- Mobile -->
+        <div id="tomatoMobile" class="btab_case2" style="display:none;">
+          <div class="bottom_nav swiper-container-bottom">
+            <div id="mobileBot" class="swiper-wrapper menu">
+              <div id="setID" class="swiper-slide w20p item">
+                <span onClick="location.href='/tomato.html';"><img src="https://tomato.etomato.com/images/icon/icon_set_b.png" alt="" style="width: 30px;"></span>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="bottom-prev swiper-button-prev"></div>
+            <div class="bottom-next swiper-button-next"></div>
+          </div>
+        </div>
+        <!-- 토마토 그룹 끝 -->
+
+       <!-- Modal -->   
+      
+
+    </head>
+    
+<body>
+
+    <div class="wrapper">
+
+
+      <div class="searchtong_cont"><!--searchtong_cont-->
+        <header> <!--header-->
+      
+        <div id="main_nav" class="main_nav">
+          <div class="main_nav_cont">
+              <ul>
+                <li class="menu_login" onclick="location.href='./sign-001.htm';">
+                  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAABACAYAAABGHBTIAAAACXBIWXMAACxLAAAsSwGlPZapAAADk0lEQVRo3u2bzVHjUAyAJZl7EioQGS57CxWQ3HZPmAoIFSxUEFMBUAFJBYQKEirANOBoKyAFZKQ9rNlxHg7s7LxnmxDd7PGM/D29H/09hMByeHjYV9UTAOgDAANAO5CqJSKmZjZV1QcRkbKPMCSomY3MrA/1yFhVr1zwIMDdbjcBgBHULGYmZnYqImkw4KbAFqe6qg5eodEz7BAA7kpGem5mCQA8i8gyBBUz94iolw82l0AfiYigR4VMRDNH2VJVYxF5rNKkzDwiosQd9MViMYh8Kdnf348BYFh8p6rfROS58jm8XD62Wi1AxL8bJiJyq9V6JI96Rg5ssuloqEJE5MrM5sV3RHRMvqZzybqZ1L1bIeLEmdaxF+C9vT1210ud1i3MsqkzAOwF2Mxc72kJDZCSE6EdBBgRGwFcJgRfTHbAO+Ad8A746wGr6tx5TrcaWEREVU/NbJ770LdNBcbQCpi5HUXRvZn1zWxqZuehYuINMbpVuoaJKH7NayFijIhPebCxtZtWy3XgEXFWF3RwYFWdmFnaFOjgwCKyNLOBmb0N1YiemLm3deewiCwXi8UpANy8CdeIZswcb6XjkWXZpaomJdD33W73oop/iKpeQ2UJtly+dzodfHl5mfvU1+l0klqBP4Du+4ZuBHAB+hcixiGhXWBk5iERXUO4qt7/yjjLsnPvnhYRjRoICwAwZOZ+iF26ibClXpoXYFW9BABpIOxYRB4+XbT0QSQ1JKK7Enf0RkQuP2W09M6PXGyATXzB1u5pFWATALjeAHsVUvdeTbCjEtihiAQvwFUKfHBwMAaAM9cHUdVzEZlW8Q+VADNzGxFvELEMdlBsOvn0wDnsDBHX4t68w2ZQdVk1ODARxQDQCNiqdulWU2ArAVbVCSJOc9i5mR3V2R3gs20pjqLozMzSLMuuoCHielroCZaJaFF4lTQFOohrGUWRm3nkpoZfoZpaYKuBP5PsgHfAO+Ad8NcDJiJxjqleE+CY+U0PqBfg1Wq1BoyIXKKsemv+idSKhki9NbXAeqq3TUQ/G2DkkWOI1OcaHjvPF1UXux0fOnFdXFW99Qasqrew3ifdRsT7EOWSf4R1E4Vjr7da8k2iNLEOAGMimqxWqzTgNR4mohMzG76XTsIAit9coalZ1hKF3uvD7xS7K5fcsj+CXsVzptisxth4rKqX7hKqovXwmIiGZtZDRIaA12nNLM3vKt1u2it+A46Y+/yad39OAAAAAElFTkSuQmCC" alt="">
+                  <span>로그인</span>
+                </li>
+                <hr class="line">
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xOSAxOUg4LjVBMS41IDEuNSAwIDAgMSA3IDE3LjVWN2gxdjEwLjVhLjUuNSAwIDAgMCAuNS41SDE5djF6IiBmaWxsPSIjNEQ5MkZCIi8+DQogICAgPHBhdGggZD0iTTE1IDEyLjVoLTFWMTdoMXYtNC41ek0xMSAxMi41aC0xVjE3aDF2LTQuNXpNMTcgMTBoLTF2N2gxdi03ek0xMyAxMGgtMXY3aDF2LTd6IiBmaWxsPSIjNEQ5MkZCIi8+DQo8L3N2Zz4NCg==" alt="">
+                  <span>리서치</span>
+                </li>
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xOCAxMC4xMjJhMS44OTIgMS44OTIgMCAwIDAtLjY1MS0xLjQxNWwtMS4yNDYtMS4xMkEyLjM2NyAyLjM2NyAwIDAgMCAxNC41MzMgN0g5LjY2NkM4Ljc0NyA3IDggNy42NzIgOCA4LjVWMTloMTB2LTguODc4em0tMS40MzctLjcwOGMuMDI4LjAyOC4wNTQuMDU2LjA3OS4wODZoLTEuNDJWOC4yMjNjLjAzNC4wMjEuMDY2LjA0NS4wOTYuMDdsMS4yNDUgMS4xMjF6TTkuMTExIDE4VjguNWMwLS4yNzYuMjQ5LS41LjU1Ni0uNWg0LjQ0NHYyLjVoMi43NzhWMThIOS4xMXptMS42NjctNi41aDQuNDQ0djFoLTQuNDQ0di0xem0wIDJoNC40NDR2MWgtNC40NDR2LTF6bTMuMzQzIDEuOTA3IDEuMDkyLjE4M2MtLjEwNi41MjQtLjU1OSAxLjQxLTEuNTgyIDEuNDEtLjQwMiAwLS43OTItLjEyNS0xLjEwNC0uMzUzLS4xNzQtLjExMi0uMjM2LS4xNDctLjM2OC0uMTQ3YTEuMjE2IDEuMjE2IDAgMCAwLS41MDkuMzNsLS44MzMtLjY1OWEyLjE1IDIuMTUgMCAwIDEgMS4zNDItLjY3MWMuMzcuMDA0LjcyNi4xMiAxLjAxMi4zMzJhLjcyOC43MjggMCAwIDAgLjQ2LjE2N2MuMzQ2LjAwMS40ODktLjU4NS40OS0uNTkyeiIgZmlsbD0iIzREOTJGQiIvPg0KPC9zdmc+DQo=" alt="">
+                  <span>리포트</span>
+                </li>
+                <hr class="line">
+                <li>
+                  <img src="./img/ic_pannel_badge.svg" alt="">
+                  <span>패널등록증 (NFT)</span>
+                </li>
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xMyAxM2EzIDMgMCAxIDAgMC02IDMgMyAwIDAgMCAwIDZ6bTAtNWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6TTE1LjI0NiAxNGgtNC40OTJjLTEuNTIuMDAyLTIuNzUyIDEuMTEtMi43NTQgMi40NzlWMTloMS4xMTF2LTIuNTIxYzAtLjgxNy43MzYtMS40NzggMS42NDMtMS40NzloNC40OTJjLjkwNyAwIDEuNjQyLjY2MiAxLjY0MyAxLjQ3OVYxOUgxOHYtMi41MjFjLS4wMDItMS4zNjktMS4yMzMtMi40NzctMi43NTQtMi40Nzl6IiBmaWxsPSIjNEQ5MkZCIi8+DQo8L3N2Zz4NCg==" alt="">
+                  <span>마이페이지</span>
+                </li>
+                <hr class="line">
+                <li>
+                  <img src="https://searchtong.com/static/media/icon-side-setting.9f19ed5a.svg" alt="">
+                  <span>설정</span>
+                </li>
+                <li>
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xMyAxOWE2IDYgMCAxIDEgNi02IDYuMDA3IDYuMDA3IDAgMCAxLTYgNnptMC0xMWE1IDUgMCAxIDAgMCAxMCA1IDUgMCAwIDAgMC0xMHoiIGZpbGw9IiM0RDkyRkIiLz4NCiAgICA8cGF0aCBkPSJNMTMuNTYyIDE0LjVoLTEuMTI1di0uMzljLS4wMTctLjc1NC40MDYtMS40NTggMS4xMDUtMS44MzguNDI3LS4yMTkuNjUzLS42Ny41NjMtMS4xMTYtLjA5LS40MjQtLjQ0Ni0uNzU1LS45LS44MzctLjYxMS0uMTA1LTEuMTk4LjI3MS0xLjMxMi44NDFhLjk3NC45NzQgMCAwIDAtLjAxOC4xOUgxMC43NWMwLTEuMTYgMS4wMDgtMi4xIDIuMjUtMi4xIDEuMjQzIDAgMi4yNS45NCAyLjI1IDIuMTAxIDAgLjc2NS0uNDQ2IDEuNDctMS4xNjQgMS44MzlhMS4wMjQgMS4wMjQgMCAwIDAtLjUyNC45MnYuMzl6TTEzLjc1IDE1LjI1aC0xLjV2MS41aDEuNXYtMS41eiIgZmlsbD0iIzREOTJGQiIvPg0KPC9zdmc+DQo=" alt="">
+                  <span>고객센터</span>
+                </li>
+              </ul>
+          </div>
+        </div>       
+        <div id="main_nav_overlay" onclick="closeNav33()"></div>
+            <div onclick="openNav33()" style="cursor: pointer;">
+              <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cmVjdCB4PSIyIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMiIgcng9IjEiIGZpbGw9IiMxMTEiLz4NCiAgICA8cmVjdCB4PSIyIiB5PSIxMCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIiIHJ4PSIxIiBmaWxsPSIjMTExIi8+DQogICAgPHJlY3QgeD0iMiIgeT0iMTciIHdpZHRoPSIxOCIgaGVpZ2h0PSIyIiByeD0iMSIgZmlsbD0iIzExMSIvPg0KPC9zdmc+DQo=" alt="">
+            </div>
+            <h4 class="login_tit nft_tit">패널 등록증 (NFT)</h4>
+            <div class="nft_mypage">
+                <img src="./img/ic_mypage.svg" alt="">
+            </div>
+        </header> <!--header-->
+
+        <div class="sub_header"> <!--sub_header-->
+          <div class="sh_l">
+            <a href="#"><img src="./img/ic_arrow_bg.svg" alt=""></a>
+          </div>
+          
+        </div> <!--sub_header-->
+
+        <div class="nft_cont"><!--nft_cont-->
+
+          <div class="nft_pannel_info_cont"><!--nft_pannel_info_cont-->
+            <div class="npic_01">
+              <span class="npic_01_num"><b>2</b> / <b>100,000</b>호</span>
+              <span class="npic_01_num2">123456</span>
+              <span class="npic_01_price">등록 가격 : <b>10,000</b> TTC</span>
+              <span class="npic_01_some">≒ <b>599,000,000</b>원</span>
+            </div>
+
+            <hr class="line4">
+
+            <div class="npic_02">
+              <div class="npic_02_txt"><img src="./img/ic_check.svg" alt=""> <b>10</b>명이 이 등록증을 확인하였어요.</div>
+              <input class="npic_02_btn" type="button" value="구매하기">
+            </div>
+
+            <hr class="line3">
+
+            <div class="npic_tab">
+              <div class="tab">
+                <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">NFT 정보</button>
+                <button class="tablinks" onclick="openCity(event, 'Paris')">NFT 히스토리</button>
+              </div>
+              
+              <div id="London" class="tabcontent">
+                <h4 class="npic_tab_tit">기본 정보</h4>
+                <div class="npic_tab_txt">
+                  <ul>
+                    <li>NFT 발행처 : <b>서치통</b></li>
+                    <li>NFT 판매자 : <b>닉네임</b></li>
+                    <li>토큰 고유번호 : <b>123456</b></li>
+                  </ul>
+                </div>
+
+                <br>
+
+                <h4 class="npic_tab_tit">블록체인 정보</h4>
+                <div class="npic_tab_txt">
+                  <ul>
+                    <li>판매자 지갑 주소 : <b>TTCNABsm34nfwk23dj1flLLD2mrd </b></li>
+                    <li>블록체인 플랫폼 : <b>통통체인</b></li>
+                  </ul>
+                </div>
+
+                <br>
+
+                <h4 class="npic_tab_tit">구매 약관</h4>
+                <div class="npic_tab_txt">
+                  NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관NFT 구매 약관
+                </div>
+              </div>
+              
+              <div id="Paris" class="tabcontent">
+                  <ul class="npic_tab_list">
+                    <li>
+                      <img src="./img/ic_user.svg" alt="">
+                      <div class="npic_tab_list_txt">
+                        <span><b>rooster</b>님이</span>
+                        <span><b>10,000</b>TTC에 판매 등록 하셨습니다.</span>
+                      </div>
+                    </li>
+                    <li>
+                      <img src="./img/ic_user.svg" alt="">
+                      <div class="npic_tab_list_txt">
+                        <span><b>rooster</b>님이</span>
+                        <span>발행 하셨습니다.</span>
+                      </div>
+                    </li>
+                  </ul>
+              </div>
+            </div>
+
+          </div><!--nft_pannel_info_cont-->
+
+        </div><!--nft_cont-->
+       
+      </div><!--searchtong_cont-->
+    </div>
+
+    <!--구매하기 버튼-->
+    <script>
+      $('.npic_02_btn').click(function(){
+        location.href='./nft-004.htm';
+      });
+    </script>
+
+    <!--tab menu-->
+    <script>
+      function openCity(evt, cityName) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablinks");
+          for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+          }
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " active";
+        }
+        
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+
+  <script>
+      function openNav33() {
+       
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        document.getElementById("main_nav_overlay").style.display = "block";
+
+        if(window.innerWidth < 480){
+          document.getElementById("main_nav").style.width = "80%";
+        }else if(window.innerWidth > 700){
+          document.getElementById("main_nav").style.width = "450px";
+        }else if(480 < window.innerWidth < 700){
+          document.getElementById("main_nav").style.width = "300px";
+        }
+      }
+
+      function closeNav33() {
+        document.getElementById("main_nav").style.width = "0";
+        document.body.style.backgroundColor = "white";
+        document.getElementById("main_nav_overlay").style.display = "none";
+      }
+
+  </script>
+    
+
+
+</body>
+</html>

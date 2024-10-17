@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover" />
+        <title>서치통</title>
+        <style>
+            /**
+            * Extend the react-native-web reset:
+            * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
+            */
+            html,
+            body,
+            #root {
+                width: 100%;
+                /* To smooth any scrolling behavior */
+                -webkit-overflow-scrolling: touch;
+                margin: 0px;
+                padding: 0px;
+                /* Allows content to fill the viewport and go beyond the bottom */
+                min-height: 100%;
+            }
+            #root {
+                flex-shrink: 0;
+                flex-basis: auto;
+                flex-grow: 1;
+                display: flex;
+                flex: 1;
+            }
+        
+            html {
+                scroll-behavior: smooth;
+                /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+                -webkit-text-size-adjust: 100%;
+                height: calc(100% + env(safe-area-inset-top));
+            }
+        
+            body {
+                display: flex;
+                /* Allows you to scroll below the viewport; default value is visible */
+                overflow-y: auto;
+                overscroll-behavior-y: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -ms-overflow-style: scrollbar;
+            }
+            /* Enable for apps that support dark-theme */
+            /*@media (prefers-color-scheme: dark) {
+                body {
+                background-color: black;
+                }
+            }*/
+        </style>
+        <!-- <link rel="manifest" href="\manifest.json"> -->
+        <link rel="icon" type="image/png" sizes="16x16" href="https://searchtong.com/favicon-16.png"></link>
+        <link rel="icon" type="image/png" sizes="32x32" href="https://searchtong.com/favicon-32.png"></link>
+        <link rel="shortcut icon" href="https://searchtong.com/favicon.ico"></link>
+        
+        <!-- 토마토 그룹 css 웹-->
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/side_menu.css">
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/bottom_tab_bar.css">
+    
+        <!--fontawesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+        <!--swiper-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+        <!--서치통-->
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/nft.css">
+        <link rel="stylesheet" href="./css/pannel.css">
+        <link rel="stylesheet" href="./css/searchtong.css">
+        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+        <!-- 토마토 그룹 javascript-->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="https://tomato.etomato.com/crypto-js.min.js"></script>
+        <script src="https://tomato.etomato.com/swiper-3.2.7.min.js"></script>
+        <script src="https://tomato.etomato.com/bootstrap.js"></script>
+        <script src="https://tomato.etomato.com/tomato_20220420.js"></script>
+    
+        <!-- 토마토 그룹 시작 -->
+        <!-- Web-->
+        <div id="tomatoWeb" style="display:none; z-index:9999;" >
+          <div id="mySidenav" class="sidenav">
+            <asp:Literal ID="liSidebar" runat="server"></asp:Literal>
+            <a href="javascript:void(0)" id="open_btn" class="openbtn" onclick="openNav()"><i class="fas fa-plus-circle"></i></a>
+            <a href="javascript:void(0)" id="close_btn" class="closebtn" onclick="closeNav()" style="display: none;"><i class="fas fa-times-circle"></i></a>
+          </div>
+    
+          <div id="sortable-list" class="sidenav2" style="display:none;">
+            <h3>메뉴설정</h3>
+            <ul id="sortable" class="connectedSortable" style="list-style:none; padding:0;">
+              <asp:Literal ID="liMenubar" runat="server"></asp:Literal>
+            </ul>
+          </div>
+        </div>
+    
+        <!-- Mobile -->
+        <div id="tomatoMobile" class="btab_case2" style="display:none;">
+          <div class="bottom_nav swiper-container-bottom">
+            <div id="mobileBot" class="swiper-wrapper menu">
+              <div id="setID" class="swiper-slide w20p item">
+                <span onClick="location.href='/tomato.html';"><img src="https://tomato.etomato.com/images/icon/icon_set_b.png" alt="" style="width: 30px;"></span>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="bottom-prev swiper-button-prev"></div>
+            <div class="bottom-next swiper-button-next"></div>
+          </div>
+        </div>
+        <!-- 토마토 그룹 끝 -->
+
+       
+    </head>
+    
+<body>
+
+    <div class="wrapper">
+      
+
+      <div class="searchtong_cont"><!--searchtong_cont-->
+        <header> <!--header-->
+          <div class="header_back" onclick="window.history.back()" style="cursor: pointer;">
+            <img src="./img/ic_back.svg" alt="">
+          </div>
+        </header> <!--header-->
+
+        <div class="sub_header"> <!--sub_header-->
+           <div class="sh_info">
+              <div class="sh_info_t">
+                <img src="https://searchtong.com/uploads/1711075354639-[꾸미기]NISI20220107_0018315838.jpg" alt="">
+                <span>리얼미터, ‘잔여 백신’ 접종 의향은?</span>
+              </div>
+
+              <div class="sh_info_b">
+                <div class="rsc_info">
+                  <div class="rsc_info_num">
+                   
+                    <input type="date" value="2024-03-28" disabled="" id="rin02"><label for="rin02"></label> 
+                    
+                  </div>
+
+                  <a href=""><img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cGF0aCBkPSJNMTQuNzUgMTF2My4xMjRjMCAuMzQ1LS4yOC42MjUtLjYyNS42MjVIMi44NzVhLjYyNS42MjUgMCAwIDEtLjYyNS0uNjI1di0zLjEyNUgxdjMuMTI1YzAgMS4wMzUuODQgMS44NzUgMS44NzUgMS44NzVoMTEuMjVjMS4wMzYgMCAxLjg3NS0uODQgMS44NzUtMS44NzV2LTMuMTI1aC0xLjI1eiIgZmlsbD0iIzExMSIvPg0KICAgIDxwYXRoIGQ9Ik04LjUgMWExLjY2NCAxLjY2NCAwIDAgMC0xLjIzLjU1Mkw1IDQuMDI3bC44Mi44OTMgMi4xMDUtMi4yOTVMNy45NCAxM0g5LjFMOS4wODMgMi42MzQgMTEuMTggNC45MiAxMiA0LjAyNyA5LjczIDEuNTUyQTEuNjYzIDEuNjYzIDAgMCAwIDguNSAxeiIgZmlsbD0iIzExMSIvPg0KPC9zdmc+DQo=" alt="">
+                  </a>
+                </div>
+              </div>
+
+              <hr class="line">
+           </div>
+        </div> <!--sub_header-->
+
+        <div class="rpt__cont"><!--rpt__cont-->
+          <div class="rpt_file_cont">
+
+            <div class="rfc_t">
+              <h4>첨부파일 <img src="./img/ic_file.svg" alt=""></h4>
+              <div class="rfc_box">
+                <span>뉴스토마토&미디어토마토 124차 보고서_pdf</span>
+                <a class="rfc_box_link" href="./file/test.pdf" download="test.pdf">다운로드</a>
+              </div>
+            </div>
+
+            <div class="rfc_b">
+              김희재는 평소 인터뷰 기회나 팬들에게 메시지를 쓸 때마다 "항상 남을 돕는 사람이 되고 싶었다. 앞으로 내가 무엇을 할 수 있을지는 아직 나 조차도 모른다. 허나, 어릴 때부터 활동을 해오며 느낀 것은 주변에 또는 나 조차도 도움이 간절할 때가 많더라. 그럴 때 ‘누군가 작은 도움이라도 줬다면’이라는 생각을 하며 자랐다. 이제 천천히 해볼 생각이다"고 밝혔다. <br><br><br>'미스터트롯’ 활동 당시에도 김희재는 팬들과 1주년을 기념하기 위해 365만원을 ‘희랑’ 이름으로 기부하며 해군 후배들을 위해 직접 기부하며 선한 영향력이 주는 작은 기적들로 박수를 받은 바 있다.
+            </div>
+
+            <hr class="line2">
+
+            <div class="rpt_index_cont">
+              <input class="rfc_index_btn" type="button" value="목록으로">
+
+              <ul class="rfc_index_list">
+                <li>
+                  ▶ 제 123차 여론조사 조사 보고서 - 3월 3째주
+                </li>
+                <li>
+                  ▶ 제 122차 여론조사 조사 보고서 - 3월 2째주
+                </li>
+                <li>
+                  ▶ 제 121차 여론조사 조사 보고서 - 3월 1째주
+                </li>
+              </ul>
+            </div>
+
+
+          </div>
+
+        </div><!--rpt__cont-->
+       
+
+      </div><!--searchtong_cont-->
+    </div>
+
+    <!--페이지 이동-->
+    <script>
+      $('.rfc_index_btn').click(function(){
+        location.href='./rpt-001.htm'
+      });
+
+      $('.rfc_index_list li').click(function(){
+        location.href='./rpt-002-002.htm'
+      });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover" />
+        <title>서치통</title>
+        <style>
+            /**
+            * Extend the react-native-web reset:
+            * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
+            */
+            html,
+            body,
+            #root {
+                width: 100%;
+                /* To smooth any scrolling behavior */
+                -webkit-overflow-scrolling: touch;
+                margin: 0px;
+                padding: 0px;
+                /* Allows content to fill the viewport and go beyond the bottom */
+                min-height: 100%;
+            }
+            #root {
+                flex-shrink: 0;
+                flex-basis: auto;
+                flex-grow: 1;
+                display: flex;
+                flex: 1;
+            }
+        
+            html {
+                scroll-behavior: smooth;
+                /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+                -webkit-text-size-adjust: 100%;
+                height: calc(100% + env(safe-area-inset-top));
+            }
+        
+            body {
+                display: flex;
+                /* Allows you to scroll below the viewport; default value is visible */
+                overflow-y: auto;
+                overscroll-behavior-y: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -ms-overflow-style: scrollbar;
+            }
+            /* Enable for apps that support dark-theme */
+            /*@media (prefers-color-scheme: dark) {
+                body {
+                background-color: black;
+                }
+            }*/
+        </style>
+        <!-- <link rel="manifest" href="\manifest.json"> -->
+        <link rel="icon" type="image/png" sizes="16x16" href="https://searchtong.com/favicon-16.png"></link>
+        <link rel="icon" type="image/png" sizes="32x32" href="https://searchtong.com/favicon-32.png"></link>
+        <link rel="shortcut icon" href="https://searchtong.com/favicon.ico"></link>
+        
+        <!-- 토마토 그룹 css 웹-->
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/side_menu.css">
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/bottom_tab_bar.css">
+    
+        <!--fontawesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+        <!--swiper-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+        <!--서치통-->
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/pannel.css">
+        <link rel="stylesheet" href="./css/nft.css">
+        <link rel="stylesheet" href="./css/searchtong.css">
+
+        <!-- 토마토 그룹 javascript-->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="https://tomato.etomato.com/crypto-js.min.js"></script>
+        <script src="https://tomato.etomato.com/swiper-3.2.7.min.js"></script>
+        <script src="https://tomato.etomato.com/bootstrap.js"></script>
+        <script src="https://tomato.etomato.com/tomato_20220420.js"></script>
+    
+        <!-- 토마토 그룹 시작 -->
+        <!-- Web-->
+        <div id="tomatoWeb" style="display:none; z-index:9999;" >
+          <div id="mySidenav" class="sidenav">
+            <asp:Literal ID="liSidebar" runat="server"></asp:Literal>
+            <a href="javascript:void(0)" id="open_btn" class="openbtn" onclick="openNav()"><i class="fas fa-plus-circle"></i></a>
+            <a href="javascript:void(0)" id="close_btn" class="closebtn" onclick="closeNav()" style="display: none;"><i class="fas fa-times-circle"></i></a>
+          </div>
+    
+          <div id="sortable-list" class="sidenav2" style="display:none;">
+            <h3>메뉴설정</h3>
+            <ul id="sortable" class="connectedSortable" style="list-style:none; padding:0;">
+              <asp:Literal ID="liMenubar" runat="server"></asp:Literal>
+            </ul>
+          </div>
+        </div>
+    
+        <!-- Mobile -->
+        <div id="tomatoMobile" class="btab_case2" style="display:none;">
+          <div class="bottom_nav swiper-container-bottom">
+            <div id="mobileBot" class="swiper-wrapper menu">
+              <div id="setID" class="swiper-slide w20p item">
+                <span onClick="location.href='/tomato.html';"><img src="https://tomato.etomato.com/images/icon/icon_set_b.png" alt="" style="width: 30px;"></span>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="bottom-prev swiper-button-prev"></div>
+            <div class="bottom-next swiper-button-next"></div>
+          </div>
+        </div>
+        <!-- 토마토 그룹 끝 -->
+
+       
+    </head>
+    
+<body>
+
+    <div class="wrapper">
+      
+      
+      <div class="searchtong_cont"><!--searchtong_cont-->
+        <header> <!--header-->
+      
+        <div id="main_nav" class="main_nav">
+          <div class="main_nav_cont">
+              <ul>
+                <li class="menu_login ml" onclick="location.href='./sign-001.htm';">
+                  <span>로그인</span>
+                  <img class="menu_login_arrow" src="./img/ic_arrow_b.svg" alt="">
+                </li>
+                <hr class="line">
+                <li onclick="location.href='./main-001.htm';">
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xOSAxOUg4LjVBMS41IDEuNSAwIDAgMSA3IDE3LjVWN2gxdjEwLjVhLjUuNSAwIDAgMCAuNS41SDE5djF6IiBmaWxsPSIjNEQ5MkZCIi8+DQogICAgPHBhdGggZD0iTTE1IDEyLjVoLTFWMTdoMXYtNC41ek0xMSAxMi41aC0xVjE3aDF2LTQuNXpNMTcgMTBoLTF2N2gxdi03ek0xMyAxMGgtMXY3aDF2LTd6IiBmaWxsPSIjNEQ5MkZCIi8+DQo8L3N2Zz4NCg==" alt="">
+                  <span>리서치</span>
+                  <img class="menu_list_arrow" src="./img/ic_arrow.svg" alt="">
+                </li>
+                <li onclick="location.href='./rpt-001.htm';">
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xOCAxMC4xMjJhMS44OTIgMS44OTIgMCAwIDAtLjY1MS0xLjQxNWwtMS4yNDYtMS4xMkEyLjM2NyAyLjM2NyAwIDAgMCAxNC41MzMgN0g5LjY2NkM4Ljc0NyA3IDggNy42NzIgOCA4LjVWMTloMTB2LTguODc4em0tMS40MzctLjcwOGMuMDI4LjAyOC4wNTQuMDU2LjA3OS4wODZoLTEuNDJWOC4yMjNjLjAzNC4wMjEuMDY2LjA0NS4wOTYuMDdsMS4yNDUgMS4xMjF6TTkuMTExIDE4VjguNWMwLS4yNzYuMjQ5LS41LjU1Ni0uNWg0LjQ0NHYyLjVoMi43NzhWMThIOS4xMXptMS42NjctNi41aDQuNDQ0djFoLTQuNDQ0di0xem0wIDJoNC40NDR2MWgtNC40NDR2LTF6bTMuMzQzIDEuOTA3IDEuMDkyLjE4M2MtLjEwNi41MjQtLjU1OSAxLjQxLTEuNTgyIDEuNDEtLjQwMiAwLS43OTItLjEyNS0xLjEwNC0uMzUzLS4xNzQtLjExMi0uMjM2LS4xNDctLjM2OC0uMTQ3YTEuMjE2IDEuMjE2IDAgMCAwLS41MDkuMzNsLS44MzMtLjY1OWEyLjE1IDIuMTUgMCAwIDEgMS4zNDItLjY3MWMuMzcuMDA0LjcyNi4xMiAxLjAxMi4zMzJhLjcyOC43MjggMCAwIDAgLjQ2LjE2N2MuMzQ2LjAwMS40ODktLjU4NS40OS0uNTkyeiIgZmlsbD0iIzREOTJGQiIvPg0KPC9zdmc+DQo=" alt="">
+                  <span>리포트</span>
+                  <img class="menu_list_arrow" src="./img/ic_arrow.svg" alt="">
+                </li>
+                <hr class="line">
+                <li onclick="location.href='./nft-001.htm';">
+                  <img src="./img/ic_pannel_badge.svg" alt="">
+                  <span>패널등록증 (NFT)</span>
+                  <img class="menu_list_arrow" src="./img/ic_arrow.svg" alt="">
+                </li>
+                <li onclick="location.href='./myp-001.htm';">
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xMyAxM2EzIDMgMCAxIDAgMC02IDMgMyAwIDAgMCAwIDZ6bTAtNWEyIDIgMCAxIDEgMCA0IDIgMiAwIDAgMSAwLTR6TTE1LjI0NiAxNGgtNC40OTJjLTEuNTIuMDAyLTIuNzUyIDEuMTEtMi43NTQgMi40NzlWMTloMS4xMTF2LTIuNTIxYzAtLjgxNy43MzYtMS40NzggMS42NDMtMS40NzloNC40OTJjLjkwNyAwIDEuNjQyLjY2MiAxLjY0MyAxLjQ3OVYxOUgxOHYtMi41MjFjLS4wMDItMS4zNjktMS4yMzMtMi40NzctMi43NTQtMi40Nzl6IiBmaWxsPSIjNEQ5MkZCIi8+DQo8L3N2Zz4NCg==" alt="">
+                  <span>마이페이지</span>
+                  <img class="menu_list_arrow" src="./img/ic_arrow.svg" alt="">
+                </li>
+                <hr class="line">
+                <li onclick="location.href='./set-001.htm';">
+                  <img src="https://searchtong.com/static/media/icon-side-setting.9f19ed5a.svg" alt="">
+                  <span>설정</span>
+                  <img class="menu_list_arrow" src="./img/ic_arrow.svg" alt="">
+                </li>
+                <li onclick="location.href='./ctm-001.htm';">
+                  <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjYiIHZpZXdCb3g9IjAgMCAyNiAyNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8Y2lyY2xlIGN4PSIxMyIgY3k9IjEzIiByPSIxMyIgZmlsbD0iI0YzRjhGRiIvPg0KICAgIDxwYXRoIGQ9Ik0xMyAxOWE2IDYgMCAxIDEgNi02IDYuMDA3IDYuMDA3IDAgMCAxLTYgNnptMC0xMWE1IDUgMCAxIDAgMCAxMCA1IDUgMCAwIDAgMC0xMHoiIGZpbGw9IiM0RDkyRkIiLz4NCiAgICA8cGF0aCBkPSJNMTMuNTYyIDE0LjVoLTEuMTI1di0uMzljLS4wMTctLjc1NC40MDYtMS40NTggMS4xMDUtMS44MzguNDI3LS4yMTkuNjUzLS42Ny41NjMtMS4xMTYtLjA5LS40MjQtLjQ0Ni0uNzU1LS45LS44MzctLjYxMS0uMTA1LTEuMTk4LjI3MS0xLjMxMi44NDFhLjk3NC45NzQgMCAwIDAtLjAxOC4xOUgxMC43NWMwLTEuMTYgMS4wMDgtMi4xIDIuMjUtMi4xIDEuMjQzIDAgMi4yNS45NCAyLjI1IDIuMTAxIDAgLjc2NS0uNDQ2IDEuNDctMS4xNjQgMS44MzlhMS4wMjQgMS4wMjQgMCAwIDAtLjUyNC45MnYuMzl6TTEzLjc1IDE1LjI1aC0xLjV2MS41aDEuNXYtMS41eiIgZmlsbD0iIzREOTJGQiIvPg0KPC9zdmc+DQo=" alt="">
+                  <span>고객센터</span>
+                  <img class="menu_list_arrow" src="./img/ic_arrow.svg" alt="">
+                </li>
+              </ul>
+          </div>
+        </div>
+        <div id="main_nav_overlay" onclick="closeNav33()"></div>
+            <div onclick="openNav33()" style="cursor: pointer;">
+              <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHZpZXdCb3g9IjAgMCAyMiAyMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgICA8cmVjdCB4PSIyIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMiIgcng9IjEiIGZpbGw9IiMxMTEiLz4NCiAgICA8cmVjdCB4PSIyIiB5PSIxMCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjIiIHJ4PSIxIiBmaWxsPSIjMTExIi8+DQogICAgPHJlY3QgeD0iMiIgeT0iMTciIHdpZHRoPSIxOCIgaGVpZ2h0PSIyIiByeD0iMSIgZmlsbD0iIzExMSIvPg0KPC9zdmc+DQo=" alt="">
+            </div>
+
+            <h4 class="login_tit nft_tit">마이페이지</h4>
+
+            <div style="cursor: pointer; height: 22px;" onclick="location.href='./main-001.htm'">
+                <img src="./img/ic_home.svg" alt="">
+            </div>
+        </header> <!--header-->
+
+
+        <div class="myp__cont"><!--main__cont-->
+            <div class="mc_profile">
+              <div class="mc_profile_info">
+                <img src="./img/ic_user.svg" alt="">
+                <span>1234</span>
+              </div>
+              <input class="mc_wallet_btn" type="button" value="지갑연동">
+            </div>
+
+            <div class="mc_wallet">
+              <ul>
+                <li>
+                  <div class="mw_l">
+                    <img src="./img/ic_ttc.svg" alt="">
+                    <span>통통코인</span>
+                  </div>
+                  <input type="text" disabled value="213,251.000">
+                </li>
+                <hr class="line">
+                <li>
+                  <div class="mw_l">
+                    <img src="./img/ic_ttco.webp" alt="">
+                    <span>통통쿠폰</span>
+                  </div>
+                  <input type="text" disabled value="213,251.000">
+                </li>
+              </ul>
+            </div>
+
+            <input type="button" value="내 패널 정보 확인하기" class="mc_pannel_btn">
+
+            <div class="mc_pannel_info">
+              <h4>내 패널등록증(NFT) 확인하기</h4>
+              <div class="mc_pannel_cont">
+                <table class="mc_pannel_cont_table">
+                  <colgroup>
+                    <col width="15%">
+                    <col width="30%">
+                    <col width="25%">
+                    <col width="30%">
+                  </colgroup>
+                  <tbody>
+                    <tr>
+                      <td>상태</td>
+                      <td>NFT 이름</td>
+                      <td>고유번호</td>
+                      <td>구매일 / 판매일</td>
+                    </tr>
+                    <tr>
+                      <td>소유 중</td>
+                      <td class="mpct_name">02호 패널등록증</td>
+                      <td><input type="num" value="123456" disabled></td>
+                      <td><input type="date" value="2024-04-17" disabled></td>
+                    </tr>
+                    <tr>
+                      <td>판매완료</td>
+                      <td class="mpct_name">02호 패널등록증</td>
+                      <td><input type="num" value="123456" disabled></td>
+                      <td><input type="date" value="2024-04-17" disabled></td>
+                    </tr>
+                    <tr>
+                      <td>구매</td>
+                      <td class="mpct_name">02호 패널등록증</td>
+                      <td><input type="num" value="123456" disabled></td>
+                      <td><input type="date" value="2024-04-17" disabled></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <hr class="line">
+
+            <div class="mc_ttco_benefit">
+              <span class="mtb_tit">*토마토 그룹사 통통쿠폰(TTCO) 할인 혜택 서비스</span>
+              <ul>
+                <li>
+                  <div class="mtb_l">
+                    <div class="mtb_l_t">
+                      <img src="./img/ic_tomatopass.svg" alt="">
+                      <span>합격통</span>
+                    </div>
+                    <span>금융자격증 교육기관</span>
+                  </div>
+                  <input type="button" value="바로가기" class="mtb_r_btn">
+                </li>
+                
+                <hr class="line">
+
+                <li>
+                  <div class="mtb_l">
+                    <div class="mtb_l_t">
+                      <img src="./img/ic_tomatotuja.webp" alt="">
+                      <span>투자클럽</span>
+                    </div>
+                    <span>국내 1위 증권정보</span>
+                  </div>
+                  <input type="button" value="바로가기" class="mtb_r_btn">
+                </li>
+
+                <hr class="line">
+
+                <li>
+                  <div class="mtb_l">
+                    <div class="mtb_l_t">
+                      <img src="./img/ic_tomatomall.svg" alt="">
+                      <span>통통몰</span>
+                    </div>
+                    <span>실용적인 쇼핑몰</span>
+                  </div>
+                  <input type="button" value="바로가기" class="mtb_r_btn">
+                </li>
+
+                <hr class="line">
+
+                <li>
+                  <div class="mtb_l">
+                    <div class="mtb_l_t">
+                      <img src="./img/ic_tomatonews.svg" alt="">
+                      <span>뉴스토마토</span>
+                    </div>
+                    <span>싱싱한 뉴스, 멀티미디어 경제매체</span>
+                  </div>
+                  <input type="button" value="바로가기" class="mtb_r_btn">
+                </li>
+
+                <hr class="line">
+
+                <li>
+                  <div class="mtb_l">
+                    <div class="mtb_l_t">
+                      <img src="./img/ic_tomatochild.webp" alt="">
+                      <span>우리아이재단 후원</span>
+                    </div>
+                    <span>세상을 위한 좋은 변화</span>
+                  </div>
+                  <input type="button" value="바로가기" class="mtb_r_btn">
+                </li>
+
+                <hr class="line">
+
+                <li>
+                  <div class="mtb_l">
+                    <div class="mtb_l_t">
+                      <img src="./img/ic_tomatoticket.webp" alt="">
+                      <span>티켓통</span>
+                    </div>
+                    <span>클래식 음악 정기 구독 서비스</span>
+                  </div>
+                  <input type="button" value="바로가기" class="mtb_r_btn">
+                </li>
+              </ul>
+            </div>
+        </div><!--main__cont-->
+       
+
+      </div><!--searchtong_cont-->
+    </div>
+
+    <!--페이지이동-->
+    <script>
+     $('.mc_pannel_btn').click(function(){
+        location.href='./pnr-002.htm';
+     });
+
+     $('.mc_pannel_cont_table tr td.mpct_name').click(function(){
+        location.href='./nft-001.htm';
+     });
+    </script>
+
+    <!--사이드 메뉴-->
+    <script>
+      function openNav33() {
+       
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        document.getElementById("main_nav_overlay").style.display = "block";
+
+        if(window.innerWidth < 480){
+          document.getElementById("main_nav").style.width = "80%";
+        }else if(window.innerWidth > 700){
+          document.getElementById("main_nav").style.width = "450px";
+        }else if(480 < window.innerWidth < 700){
+          document.getElementById("main_nav").style.width = "300px";
+        }
+      }
+
+      function closeNav33() {
+        document.getElementById("main_nav").style.width = "0";
+        document.body.style.backgroundColor = "white";
+        document.getElementById("main_nav_overlay").style.display = "none";
+      }
+
+    </script>
+    
+</body>
+</html>

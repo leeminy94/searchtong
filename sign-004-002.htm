@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover" />
+        <title>서치통</title>
+        <style>
+            /**
+            * Extend the react-native-web reset:
+            * https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/StyleSheet/initialRules.js
+            */
+            html,
+            body,
+            #root {
+                width: 100%;
+                /* To smooth any scrolling behavior */
+                -webkit-overflow-scrolling: touch;
+                margin: 0px;
+                padding: 0px;
+                /* Allows content to fill the viewport and go beyond the bottom */
+                min-height: 100%;
+            }
+            #root {
+                flex-shrink: 0;
+                flex-basis: auto;
+                flex-grow: 1;
+                display: flex;
+                flex: 1;
+            }
+        
+            html {
+                scroll-behavior: smooth;
+                /* Prevent text size change on orientation change https://gist.github.com/tfausak/2222823#file-ios-8-web-app-html-L138 */
+                -webkit-text-size-adjust: 100%;
+                height: calc(100% + env(safe-area-inset-top));
+            }
+        
+            body {
+                display: flex;
+                /* Allows you to scroll below the viewport; default value is visible */
+                overflow-y: auto;
+                overscroll-behavior-y: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                -ms-overflow-style: scrollbar;
+            }
+            /* Enable for apps that support dark-theme */
+            /*@media (prefers-color-scheme: dark) {
+                body {
+                background-color: black;
+                }
+            }*/
+        </style>
+        <!-- <link rel="manifest" href="\manifest.json"> -->
+        <link rel="icon" type="image/png" sizes="16x16" href="https://searchtong.com/favicon-16.png"></link>
+        <link rel="icon" type="image/png" sizes="32x32" href="https://searchtong.com/favicon-32.png"></link>
+        <link rel="shortcut icon" href="https://searchtong.com/favicon.ico"></link>
+        
+        <!-- 토마토 그룹 css 웹-->
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/side_menu.css">
+        <link rel="stylesheet" type="text/css" href="https://tomato.etomato.com/css/bottom_tab_bar.css">
+    
+        <!--fontawesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+        <!--swiper-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+        <!--서치통-->
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/searchtong.css">
+
+        <!-- 토마토 그룹 javascript-->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+        <script src="https://tomato.etomato.com/crypto-js.min.js"></script>
+        <script src="https://tomato.etomato.com/swiper-3.2.7.min.js"></script>
+        <script src="https://tomato.etomato.com/bootstrap.js"></script>
+        <script src="https://tomato.etomato.com/tomato_20220420.js"></script>
+    
+        <!-- 토마토 그룹 시작 -->
+        <!-- Web-->
+        <div id="tomatoWeb" style="display:none; z-index:9999;" >
+          <div id="mySidenav" class="sidenav">
+            <asp:Literal ID="liSidebar" runat="server"></asp:Literal>
+            <a href="javascript:void(0)" id="open_btn" class="openbtn" onclick="openNav()"><i class="fas fa-plus-circle"></i></a>
+            <a href="javascript:void(0)" id="close_btn" class="closebtn" onclick="closeNav()" style="display: none;"><i class="fas fa-times-circle"></i></a>
+          </div>
+    
+          <div id="sortable-list" class="sidenav2" style="display:none;">
+            <h3>메뉴설정</h3>
+            <ul id="sortable" class="connectedSortable" style="list-style:none; padding:0;">
+              <asp:Literal ID="liMenubar" runat="server"></asp:Literal>
+            </ul>
+          </div>
+        </div>
+    
+        <!-- Mobile -->
+        <div id="tomatoMobile" class="btab_case2" style="display:none;">
+          <div class="bottom_nav swiper-container-bottom">
+            <div id="mobileBot" class="swiper-wrapper menu">
+              <div id="setID" class="swiper-slide w20p item">
+                <span onClick="location.href='/tomato.html';"><img src="https://tomato.etomato.com/images/icon/icon_set_b.png" alt="" style="width: 30px;"></span>
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="bottom-prev swiper-button-prev"></div>
+            <div class="bottom-next swiper-button-next"></div>
+          </div>
+        </div>
+        <!-- 토마토 그룹 끝 -->
+
+       
+    </head>
+    
+<body>
+
+    <div class="wrapper">
+      
+      <div class="searchtong_cont"><!--searchtong_cont-->
+        <header> <!--header-->
+          <div class="header_back" onclick="window.history.back()" style="cursor: pointer;">
+            <img src="./img/ic_back.svg" alt="">
+          </div>
+          <h4 class="login_tit">비밀번호 재설정</h4>
+        </header> <!--header-->
+
+        <div class="login__cont"><!--login__cont-->
+          <div class="pwd_new_cont">
+            <input class="pnc_input" type="text" value="01012345678" disabled>
+            <ul class="pnc_list">
+              <li>
+                <input id="password1" type="text" placeholder="변경할 비밀번호 입력">
+                <span>영문+숫자+특수기호 조합 8~15자</span>
+              </li>
+              <li>
+                <input id="password2" type="text" placeholder="비밀번호 입력">
+                <span>영문+숫자+특수기호 조합 8~15자</span>
+              </li>
+            </ul>
+          </div>
+        </div><!--login__cont-->
+        
+        <div class="login_footer_cont">
+          <input type="submit" onclick="test()" value="확인" class="verification_code_btn" id="verification_code_btn">
+        </div>
+      </div><!--searchtong_cont-->
+    </div>
+
+    <!--버튼 활성화-->
+    <script>
+      $(function(){
+        $("#password2").on("keyup",function(){
+          if($("#password1").val() === $("#password2").val()){
+              $("#verification_code_btn").css("opacity","1");
+              $("#verification_code_btn").css("cursor","pointer");
+          }else{
+            $("#verification_code_btn").css("cursor","default");
+              $("#verification_code_btn").css("opacity","0.2");
+          };
+        });
+
+        $("#password1").on("keyup",function(){
+          if($("#password1").val() === $("#password2").val()){
+              $("#verification_code_btn").css("opacity","1");
+              $("#verification_code_btn").css("cursor","pointer");
+          }else{
+            $("#verification_code_btn").css("cursor","default");
+              $("#verification_code_btn").css("opacity","0.2");
+          };
+        });
+
+      });
+    </script>
+
+    <!--비밀번호 일치 확인-->
+    <script type="text/javascript">
+      function test() {
+        var p1 = document.getElementById('password1').value;
+        var p2 = document.getElementById('password2').value;
+
+            if( p1 != p2 ) {
+              alert("비밀번호 불일치합니다.");
+              return false;
+            } else{
+              alert("비밀번호가 일치합니다");
+              return true;
+            }
+      }
+    </script>
+
+    
+    
+</body>
+</html>
